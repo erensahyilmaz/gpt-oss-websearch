@@ -1,5 +1,3 @@
-
-
 # GPT-OSS Web Search & Chat Interface
 
 A powerful Python implementation that combines OpenAI's GPT-OSS 20B model with real-time web search capabilities using You.com API. This project enables intelligent web browsing, information retrieval, and document analysis with a Shrek-themed creative chat interface.
@@ -10,7 +8,8 @@ A powerful Python implementation that combines OpenAI's GPT-OSS 20B model with r
 - **GPT-OSS 20B Model**: Utilizes OpenAI's open-source 20B parameter model
 - **Smart Tool Usage**: Automatic web browsing and source verification
 - **Document Analysis**: PDF processing capabilities for CV evaluation and document review
-- **Creative Chat Mode**: Shrek Universe-themed response generation
+- **Movie Recommendation Engine**: Letterboxd integration with intelligent film selection
+- **Flexible Chat System**: Customizable system prompts for various tasks
 - **Async Processing**: Non-blocking web searches with proper async/await implementation
 
 ## 🛠️ Installation
@@ -62,14 +61,24 @@ print(result)
 - Provides summarized, up-to-date information
 - Handles tool calls and browser interactions automatically
 
-### 3. Creative Chat Mode
+### 3. Intelligent Chat with Custom System Prompts
 
-The `answer()` function provides Shrek Universe-themed responses:
+The `answer()` function provides flexible response generation with customizable system prompts:
 
 ```python
-response = answer("Tell me about artificial intelligence")
-# Returns: A movie script-style response set in the Shrek Universe
+def answer(question):
+    messages = [
+        {"role": "system", "content": "You are a helpful assistant. Choose a movie for movie night. Do NOT select any movie listed in the watched movies. Exclude them strictly. Reasoning: High."},
+        {"role": "user", "content": f"{question}"},
+    ]
+    # Process and return clean response
 ```
+
+**Key Features:**
+- Customizable system content for different tasks
+- Regex-based response parsing for clean output
+- High reasoning effort for detailed analysis
+- Token-efficient processing
 
 ### 4. Document Analysis
 
@@ -97,10 +106,11 @@ evaluation = answer(f"Evaluate this CV: {text}")
 - **Features**: Two-stage inference process for optimal accuracy
 
 ### `answer(question)`
-- **Purpose**: Generates creative responses in Shrek Universe format
+- **Purpose**: Generates intelligent responses with customizable system prompts
 - **Parameters**: `question` - The input query
-- **Returns**: Movie script-style response
-- **Special**: Uses high reasoning effort for detailed responses
+- **Returns**: Processed response based on system configuration
+- **Special**: Uses high reasoning effort and regex parsing for clean output
+- **Customizable**: System content can be modified for different use cases
 
 ## 🎯 Example Use Cases
 
@@ -110,9 +120,40 @@ The code demonstrates several practical applications:
 2. **Gaming Data**: EA FC player ratings, transfer news
 3. **Entertainment News**: Celebrity updates, show information
 4. **Document Review**: CV evaluation, document analysis
-5. **Batch Processing**: Multiple question processing from Excel files
+5. **Movie Recommendations**: Intelligent film selection based on viewing history
+6. **Batch Processing**: Multiple question processing from Excel/CSV files
 
-## 📊 Data Processing
+
+### Intelligent Movie Selection
+```python
+prompt = f"""
+You are a helpful assistant tasked with choosing a movie for a movie night.
+Do NOT select any movie that is already in the watched movies list below.
+Available movies to choose from:
+- Il Treno dei Bambini (2024)
+- Cast Away (Tom Hanks)
+- Inception (Christopher Nolan)
+- I Want You Back (2022)
+- Drive (Ryan Gosling)
+- Whiplash (JK Simmons)
+- Instant Family (Mark Wahlberg)
+- Memento
+
+Movies already watched: {watched_movies}
+Choose the best movie considering the taste of two people described below.
+Only return the movie title, nothing else.
+Person 1: {df}
+Person 2: {df1}
+"""
+
+recommendation = answer(prompt)
+```
+
+**Features:**
+- Multi-person taste analysis
+- Watched movie exclusion
+- Genre-based recommendations
+- Batch movie selection (top 5 recommendations)
 
 The project includes Excel file processing capabilities:
 
